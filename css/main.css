@@ -1,0 +1,51 @@
+﻿body {
+    font: 10px sans-serif;
+}
+#head {
+    margin: 1em;
+}
+
+.axis path,
+.axis line {
+    fill: none;
+    width: 1px;
+    shape-rendering: crispEdges;
+}
+
+.label {
+    color: #808080;
+    border: solid 1px #000;
+}
+
+.dot {
+    stroke: #000;
+}
+
+    .dot:hover {
+        stroke-width: 3px;
+    }
+
+.line {
+    fill: #000;
+    stroke: steelblue;
+    stroke-width: 1px;
+}
+
+    .line.regression {
+        stroke: red;
+    }
+
+div.tooltip {
+    position: absolute;
+    text-align: left;
+    width: 100px;
+    padding: 10px;
+    font: 18px sans-serif;
+    border: solid 1px #808080;
+    pointer-events: none;
+    background: #CCCCCC;
+}
+
+.button {
+
+}

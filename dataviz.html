@@ -1,0 +1,108 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/main.css" rel="stylesheet" />
+
+    <script src="js/jquery-2.1.4.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/d3.min.js"></script>
+    <script src="js/constdata.js"></script>
+</head>
+<body>
+    <div class="row" id="head">
+        <div class="col-sm-9">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Multipliers</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="btn btn-lg btn-default multiplier" value="5" style="color:#ff0000;">
+                                <span class="iconlabel"> x5 </span>
+                            </div>
+                            <div class="btn btn-lg btn-default multiplier" value="10" style="color:#ff6a00;">
+                                <span class="iconlabel"> x10 </span>
+                            </div>
+                            <div class="btn btn-lg btn-default multiplier" value="20" style="color:#ffd800;">
+                                <span class="iconlabel"> x20 </span>
+                            </div>
+                            <div class="btn btn-lg btn-default multiplier" value="50" style="color:#b6ff00;">
+                                <span class="iconlabel"> x50 </span>
+                            </div>
+                            <div class="btn btn-lg btn-default multiplier" value="100" style="color:#4cff00;">
+                                <span class="iconlabel"> x100 </span>
+                            </div>
+                            <div class="btn btn-lg btn-default multiplier" value="200" style="color:#00ffff;">
+                                <span class="iconlabel"> x200 </span>
+                            </div>
+                            <div class="btn btn-lg btn-default multiplier" value="500" style="color:#0094ff;">
+                                <span class="iconlabel"> x500 </span>
+                            </div>
+                            <div class="btn btn-lg btn-default multiplier" value="1000" style="color:#4800ff;">
+                                <span class="iconlabel"> x1000 </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-9">
+                    <div class="panel panel-success">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Special numbers</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="btn btn-lg btn-default prime" style="color:#865f1a;">
+                                <span class="iconlabel"> Prime numbers </span>
+                            </div>
+                            <div class="btn btn-lg btn-default palindromic" style="color:#ff00dc;">
+                                <span class="iconlabel"> Palindromic numbers </span>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- /.col-sm-9 -->
+                <div class="col-sm-3">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Reset</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="btn btn-lg btn-default reset" style="color:#000;">
+                                <span class="iconlabel"> reset </span>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- /.col-sm-3 -->
+            </div>
+        </div><!-- /.col-sm-9 -->
+        <div class="col-sm-3">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Dot</h3>
+                </div>
+                <div class="panel-body">
+                    <!--<input class="textfield" type="number" id="findnumber" />
+
+                    <div class="btn btn-m btn-default find" value="1">
+                        <span class="iconlabel"> find </span>
+                    </div>-->
+                    <div id="selectednumber_panel">
+                        <h2><span id="selectednumber_value" class="label label-default">0</span></h2>
+                        <h4 id="selectednumber_desc"></h4>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.col-sm-2 -->
+    </div>
+    <div id="buttons">
+    </div>
+    <script src="./js/chart.js"></script>
+    <script src="./js/ui.js"></script>
+</body>
+</html>
