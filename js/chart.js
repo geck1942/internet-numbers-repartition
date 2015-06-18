@@ -1,4 +1,6 @@
 ﻿var svg = null;
+var width = null, height = null;
+var xAxis = null, yAxis = null, x = null, y = null;
 
     var colors = {
         "x1000": d3.rgb("#4800ff"),
@@ -21,15 +23,7 @@
     //    units: 3
     //};
 
-    var margin = { top: 10, right: 50, bottom: 30, left: 100 },
-    width = $("#chart_area").width() - margin.left - margin.right,
-    height = (width / 3) - margin.top - margin.bottom;
-
-    var x = d3.scale.linear()
-        .range([0, width]);
-
-    var y = d3.scale.log()
-        .range([height, 0]);
+    var margin = { top: 10, right: 50, bottom: 30, left: 100 };
 
     var color = function (data) {
         if (data.prime)
@@ -47,21 +41,13 @@
         return Math.log(data.biggestmultiplier) + 3;
     };
 
-    var xAxis = d3.svg.axis()
-        .scale(x)
-        .orient("bottom");
 
-    var yAxis = d3.svg.axis()
-        .scale(y)
-        .tickFormat(d3.format("s"))
-        .orient("left");
-
-    svg = d3.select("#chart_area")
-        .append("svg")
-            .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.top + margin.bottom)
-            .append("g")
-            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+    //svg = d3.select("#chart_area")
+    //    .append("svg")
+    //        .attr("width", width + margin.left + margin.right)
+    //        .attr("height", height + margin.top + margin.bottom)
+    //        .append("g")
+    //        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
     var tooltip = d3.select("body")
                         .append("div")
@@ -69,6 +55,31 @@
                             .style("opacity", 0);
 
     $(function () {
+        width = $("#chart_area").width() - margin.left - margin.right,
+        height = (width / 3) - margin.top - margin.bottom;
+
+        x = d3.scale.linear()
+            .range([0, width]);
+
+        y = d3.scale.log()
+            .range([height, 0]);
+
+        xAxis = d3.svg.axis()
+            .scale(x)
+            .orient("bottom");
+
+        yAxis = d3.svg.axis()
+            .scale(y)
+            .tickFormat(d3.format("s"))
+            .orient("left");
+
+        svg = d3.select("#chart_area")
+            .append("svg")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
+                .append("g")
+                    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
         d3.csv("./data/q_total.csv", function (error, data) {
         if (error) throw error;
 
