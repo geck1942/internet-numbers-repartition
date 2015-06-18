@@ -1,174 +1,185 @@
-﻿var colors = {
-    "x1000": d3.rgb("#4800ff"),
-    "x500": d3.rgb("#0094ff"),
-    "x200": d3.rgb("#00ffff"),
-    "x100": d3.rgb("#4cff00"),
-    "x50": d3.rgb("#b6ff00"),
-    "x20": d3.rgb("#ffd800"),
-    "x10": d3.rgb("#ff6a00"),
-    "x5": d3.rgb("#ff0000"),
-    "prime": d3.rgb("#865f1a"),
-    "palindromic": d3.rgb("#ff00dc"),
-    "selected": d3.rgb("#b6ff00"),
-    "default": d3.rgb("#ffffff")
-};
-//var sizes = {
-//    thousands: 5,
-//    hundreds: 4,
-//    tens: 3.5,
-//    units: 3
-//};
+﻿var svg = null;
 
-var margin = { top: 10, right: 50, bottom: 30, left: 100 },
-width = document.body.clientWidth - margin.left - margin.right,
-height = (width / 3) - margin.top - margin.bottom;
+    var colors = {
+        "x1000": d3.rgb("#4800ff"),
+        "x500": d3.rgb("#0094ff"),
+        "x200": d3.rgb("#00ffff"),
+        "x100": d3.rgb("#4cff00"),
+        "x50": d3.rgb("#b6ff00"),
+        "x20": d3.rgb("#ffd800"),
+        "x10": d3.rgb("#ff6a00"),
+        "x5": d3.rgb("#ff0000"),
+        "prime": d3.rgb("#865f1a"),
+        "palindromic": d3.rgb("#ff00dc"),
+        "selected": d3.rgb("#b6ff00"),
+        "default": d3.rgb("#ffffff")
+    };
+    //var sizes = {
+    //    thousands: 5,
+    //    hundreds: 4,
+    //    tens: 3.5,
+    //    units: 3
+    //};
 
-var x = d3.scale.linear()
-    .range([0, width]);
+    var margin = { top: 10, right: 50, bottom: 30, left: 100 },
+    width = $("#chart_area").width() - margin.left - margin.right,
+    height = (width / 3) - margin.top - margin.bottom;
 
-var y = d3.scale.log()
-    .range([height, 0]);
+    var x = d3.scale.linear()
+        .range([0, width]);
 
-var color = function (data) {
-    if (data.prime)
-        return colors["prime"];
-    else if (data.palindromic)
-        return colors["palindromic"];
-    else if (data.biggestmultiplier > 1)
-        return colors["x" + data.biggestmultiplier];
-    else
-        return colors["default"];
-};
+    var y = d3.scale.log()
+        .range([height, 0]);
 
-var size = function (data) {
-    // return 3px for biggestmultiplier == 1; 6px for biggestmultiplier == 1000;
-    return Math.log(data.biggestmultiplier) + 3;
-};
+    var color = function (data) {
+        if (data.prime)
+            return colors["prime"];
+        else if (data.palindromic)
+            return colors["palindromic"];
+        else if (data.biggestmultiplier > 1)
+            return colors["x" + data.biggestmultiplier];
+        else
+            return colors["default"];
+    };
 
-var xAxis = d3.svg.axis()
-    .scale(x)
-    .orient("bottom");
+    var size = function (data) {
+        // return 3px for biggestmultiplier == 1; 6px for biggestmultiplier == 1000;
+        return Math.log(data.biggestmultiplier) + 3;
+    };
 
-var yAxis = d3.svg.axis()
-    .scale(y)
-    .tickFormat(d3.format("s"))
-    .orient("left");
+    var xAxis = d3.svg.axis()
+        .scale(x)
+        .orient("bottom");
 
-var svg = d3.select("body").append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-    .append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+    var yAxis = d3.svg.axis()
+        .scale(y)
+        .tickFormat(d3.format("s"))
+        .orient("left");
 
-var tooltip = d3.select("body")
-                    .append("div")
-                        .attr("class", "tooltip")
-                        .style("opacity", 0);
+    svg = d3.select("#chart_area")
+        .append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-d3.csv("./data/q_total.csv", function (error, data) {
-    if (error) throw error;
+    var tooltip = d3.select("body")
+                        .append("div")
+                            .attr("class", "tooltip")
+                            .style("opacity", 0);
 
-    data.forEach(function (d) {
-        d.number = +d.number;
-        d.results = +d.results;
-        d.biggestmultiplier = function (number) {
-            for (var m in _multipliers.reverse())
-                if (number % _multipliers[m] == 0)
-                    return _multipliers[m];
-            return 1;
-        }(d.number);
-        d.firstdigit = function (number) {
-            var strnumber = number + "";
-            return +(strnumber[0]);
-        }(d.number);
-        d.biggestpower = function (number) {
-            for (var index = 2; index < _powers.length; index++)
-                for (var pow in _powers[index].reverse())
-                    if (_powers[index][pow] == number)
-                        return index;
-            return 0;
-        }(d.number);
-        d.prime = function (number) {
-            for (var i in _primes)
-                if (_primes[i] == number)
-                    return true;
-            return false;
-        }(d.number);
-        d.palindromic = function (number) {
-            var strnumber = number + "";
-            var result = true;
-            for (var i = 0; i < strnumber.length / 2; i++)
-                result &= strnumber[i] == strnumber[strnumber.length - 1 - i];
-            return result
-        }(d.number);
-    });
+    $(function () {
+        d3.csv("./data/q_total.csv", function (error, data) {
+        if (error) throw error;
 
-    x.domain(d3.extent(data, function (d) { return d.number; })).nice();
-    y.domain(d3.extent(data, function (d) { return d.results; })).nice();
-
-    svg.append("g")
-        .attr("class", "x axis")
-        .attr("transform", "translate(0," + height + ")")
-        .call(xAxis)
-      .append("text")
-        .attr("class", "label")
-        .attr("x", width)
-        .attr("y", -6)
-        .style("text-anchor", "end")
-        .text("Number");
-
-    svg.append("g")
-        .attr("class", "y axis")
-        .call(yAxis)
-      .append("text")
-        .attr("class", "label")
-        .attr("transform", "rotate(-90)")
-        .attr("y", 6)
-        .attr("dy", ".71em")
-        .style("text-anchor", "end")
-        .text("Google Results")
-
-    svg.append("path")
-        .attr("class", "regression line");
-
-    svg.selectAll(".dot")
-        .data(data)
-      .enter().append("circle")
-        .attr("class", "dot")
-        .attr("number", function (d) { return d.number; })
-        .attr("r", "3px")
-        .attr("cx", function (d) { return x(d.number); })
-        .attr("cy", function (d) { return y(d.results); })
-        .style("fill", function (d) { return color(d); })
-        .on("mouseover", function (d) {
-            tooltip.transition()
-                .duration(200)
-                .style("opacity", .5);
-            tooltip.html("<b>" + d.number + "</b><p>" + d.results + "</p>")
-                .style("left", (x(d.number) + margin.left + 20) + "px")
-                //.style("text-indent", (x(d.number) + margin.left + 20) + "px")
-                .style("top", (y(d.results) + margin.top - 20) + "px");
-                //.style("background-color", color(d.biggestmultiplier));
-        })
-        .on("mouseout", function (d) {
-            tooltip.transition()
-                .duration(500)
-                .style("opacity", 0);
-        })
-        .on("click", function (data) {
-            if (data.prime)
-                highlight("primes");
-            else if (data.palindromic)
-                highlight("palindromic");
-            else if (data.biggestpower > 0)
-                highlight("powers", data.biggestpower);
-            else if (data.biggestmultiplier > 1)
-                highlight("multipliers", data.biggestmultiplier);
-            else
-                highlight("id", data.number);
-            selectNumber(data);
+        data.forEach(function (d) {
+            d.number = +d.number;
+            d.results = +d.results;
+            d.biggestmultiplier = function (number) {
+                for (var m in _multipliers.reverse())
+                    if (number % _multipliers[m] == 0)
+                        return _multipliers[m];
+                return 1;
+            }(d.number);
+            d.firstdigit = function (number) {
+                var strnumber = number + "";
+                return +(strnumber[0]);
+            }(d.number);
+            d.biggestpower = function (number) {
+                for (var index = 2; index < _powers.length; index++)
+                    for (var pow in _powers[index].reverse())
+                        if (_powers[index][pow] == number)
+                            return index;
+                return 0;
+            }(d.number);
+            d.prime = function (number) {
+                for (var i in _primes)
+                    if (_primes[i] == number)
+                        return true;
+                return false;
+            }(d.number);
+            d.palindromic = function (number) {
+                var strnumber = number + "";
+                var result = true;
+                for (var i = 0; i < strnumber.length / 2; i++)
+                    result &= strnumber[i] == strnumber[strnumber.length - 1 - i];
+                return result
+            }(d.number);
         });
 
+        x.domain(d3.extent(data, function (d) { return d.number; })).nice();
+        y.domain(d3.extent(data, function (d) { return d.results; })).nice();
+
+        svg.append("g")
+            .attr("class", "x axis")
+            .attr("transform", "translate(0," + height + ")")
+            .call(xAxis)
+          .append("text")
+            .attr("class", "label")
+            .attr("x", width)
+            .attr("y", -6)
+            .style("text-anchor", "end")
+            .text("Number");
+
+        svg.append("g")
+            .attr("class", "y axis")
+            .call(yAxis)
+          .append("text")
+            .attr("class", "label")
+            .attr("transform", "rotate(-90)")
+            .attr("y", 6)
+            .attr("dy", ".71em")
+            .style("text-anchor", "end")
+            .text("Google Results")
+
+        svg.append("path")
+            .attr("class", "regression line");
+
+        svg.selectAll(".dot")
+            .data(data)
+          .enter().append("circle")
+            .attr("class", "dot")
+            .attr("number", function (d) { return d.number; })
+            .attr("r", "3px")
+            .attr("cx", function (d) { return x(d.number); })
+            .attr("cy", function (d) { return y(d.results); })
+            .style("fill", function (d) { return color(d); })
+            .on("mouseover", function (d) {
+                tooltip.transition()
+                    .duration(200)
+                    .style("opacity", .5);
+                tooltip.html("<b>" + d.number + "</b><p>" + d.results + "</p>")
+                    .style("left", (x(d.number) + margin.left + 20) + "px")
+                    //.style("text-indent", (x(d.number) + margin.left + 20) + "px")
+                    .style("top", (y(d.results) + margin.top - 20) + "px");
+                //.style("background-color", color(d.biggestmultiplier));
+            })
+            .on("mouseout", function (d) {
+                tooltip.transition()
+                    .duration(500)
+                    .style("opacity", 0);
+            })
+            .on("click", function (data) {
+                if (data.prime)
+                    highlight("primes");
+                else if (data.palindromic)
+                    highlight("palindromic");
+                else if (data.biggestpower > 0)
+                    highlight("powers", data.biggestpower);
+                else if (data.biggestmultiplier > 1)
+                    highlight("multipliers", data.biggestmultiplier);
+                else
+                    highlight("id", data.number);
+                selectNumber(data);
+            });
+
+        svg.append("g")
+.attr("class", "legend")
+.attr("transform", "translate(50,30)")
+.style("font-size", "12px")
+.call(d3.legend);
+
+    });
 
 });
 
@@ -190,7 +201,7 @@ var highlight = function (mode, value, origin) {
             };
             _color = function (d) {
                 if (_select(d))
-                    return colors["x"+value];
+                    return colors["x" + value];
                 else
                     return d3.rgb("#ffffff");
             };
@@ -296,8 +307,7 @@ var highlight = function (mode, value, origin) {
         svg.selectAll('path')
                 .attr('opacity', 0);
     }
-    if(mode == "id")
-    {
+    if (mode == "id") {
         svg.selectAll('.dot')
             .filter(_select)
             .attr("r", "10px")

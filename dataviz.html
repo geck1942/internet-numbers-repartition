@@ -1,4 +1,26 @@
-﻿<!DOCTYPE html>
+﻿    <!--
+    Internet-Numbers-Repartition.
+    Web based data visualisation. It shows the amount of total results in Google,
+    for each natural number from 0 to 10,000. Data has been collected on the 16th
+    of June, 2015.
+
+    Copyright (C) 2015 - Aurelien Jacquot - http://aurelienjacquot.fr
+
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License along
+    with this program; if not, write to the Free Software Foundation, Inc.,
+    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.-->
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
@@ -11,87 +33,61 @@
     <script src="js/jquery-2.1.4.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/d3.min.js"></script>
+    <!-- constdata registers constants. e.g: list of multipliers, prime numbers. -->
     <script src="js/constdata.js"></script>
 </head>
 <body>
     <div class="row" id="head">
-        <div class="col-sm-9">
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">Multipliers</h3>
-                        </div>
-                        <div class="panel-body">
-                            <div class="btn btn-lg btn-default multiplier" value="5" style="color:#ff0000;">
-                                <span class="iconlabel"> x5 </span>
-                            </div>
-                            <div class="btn btn-lg btn-default multiplier" value="10" style="color:#ff6a00;">
-                                <span class="iconlabel"> x10 </span>
-                            </div>
-                            <div class="btn btn-lg btn-default multiplier" value="20" style="color:#ffd800;">
-                                <span class="iconlabel"> x20 </span>
-                            </div>
-                            <div class="btn btn-lg btn-default multiplier" value="50" style="color:#b6ff00;">
-                                <span class="iconlabel"> x50 </span>
-                            </div>
-                            <div class="btn btn-lg btn-default multiplier" value="100" style="color:#4cff00;">
-                                <span class="iconlabel"> x100 </span>
-                            </div>
-                            <div class="btn btn-lg btn-default multiplier" value="200" style="color:#00ffff;">
-                                <span class="iconlabel"> x200 </span>
-                            </div>
-                            <div class="btn btn-lg btn-default multiplier" value="500" style="color:#0094ff;">
-                                <span class="iconlabel"> x500 </span>
-                            </div>
-                            <div class="btn btn-lg btn-default multiplier" value="1000" style="color:#4800ff;">
-                                <span class="iconlabel"> x1000 </span>
-                            </div>
-                        </div>
+        <div class="col-sm-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Features</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="btn btn-lg btn-default multiplier" value="5" style="color:#ff0000;">
+                        <span class="iconlabel"> x5 </span>
                     </div>
+                    <div class="btn btn-lg btn-default multiplier" value="10" style="color:#ff6a00;">
+                        <span class="iconlabel"> x10 </span>
+                    </div>
+                    <div class="btn btn-lg btn-default multiplier" value="20" style="color:#ffd800;">
+                        <span class="iconlabel"> x20 </span>
+                    </div>
+                    <div class="btn btn-lg btn-default multiplier" value="50" style="color:#b6ff00;">
+                        <span class="iconlabel"> x50 </span>
+                    </div>
+                    <div class="btn btn-lg btn-default multiplier" value="100" style="color:#4cff00;">
+                        <span class="iconlabel"> x100 </span>
+                    </div>
+                    <div class="btn btn-lg btn-default multiplier" value="200" style="color:#00ffff;">
+                        <span class="iconlabel"> x200 </span>
+                    </div>
+                    <div class="btn btn-lg btn-default multiplier" value="500" style="color:#0094ff;">
+                        <span class="iconlabel"> x500 </span>
+                    </div>
+                    <div class="btn btn-lg btn-default multiplier" value="1000" style="color:#4800ff;">
+                        <span class="iconlabel"> x1000 </span>
+                    </div>
+                    <br />
+                    <div class="btn btn-lg btn-default prime" style="color:#865f1a;">
+                        <span class="iconlabel"> Prime numbers </span>
+                    </div>
+                    <div class="btn btn-lg btn-default palindromic" style="color:#ff00dc;">
+                        <span class="iconlabel"> Palindromic numbers </span>
+                    </div>
+                    <div class="btn btn-lg btn-warning reset" style="color:#000;float:right;">
+                        reset
+                    </div>
+
                 </div>
             </div>
-            <div class="row">
-                <div class="col-sm-9">
-                    <div class="panel panel-success">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">Special numbers</h3>
-                        </div>
-                        <div class="panel-body">
-                            <div class="btn btn-lg btn-default prime" style="color:#865f1a;">
-                                <span class="iconlabel"> Prime numbers </span>
-                            </div>
-                            <div class="btn btn-lg btn-default palindromic" style="color:#ff00dc;">
-                                <span class="iconlabel"> Palindromic numbers </span>
-                            </div>
-                        </div>
-                    </div>
-                </div><!-- /.col-sm-9 -->
-                <div class="col-sm-3">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">Reset</h3>
-                        </div>
-                        <div class="panel-body">
-                            <div class="btn btn-lg btn-default reset" style="color:#000;">
-                                <span class="iconlabel"> reset </span>
-                            </div>
-                        </div>
-                    </div>
-                </div><!-- /.col-sm-3 -->
-            </div>
-        </div><!-- /.col-sm-9 -->
-        <div class="col-sm-3">
+        </div><!-- /.col-sm-6 -->
+        <div class="col-sm-2">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title">Dot</h3>
                 </div>
                 <div class="panel-body">
-                    <!--<input class="textfield" type="number" id="findnumber" />
-
-                    <div class="btn btn-m btn-default find" value="1">
-                        <span class="iconlabel"> find </span>
-                    </div>-->
                     <div id="selectednumber_panel">
                         <h2><span id="selectednumber_value" class="label label-default">0</span></h2>
                         <h4 id="selectednumber_desc"></h4>
@@ -99,10 +95,46 @@
                 </div>
             </div>
         </div><!-- /.col-sm-2 -->
+        <div class="col-sm-4">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Internet Number Repartition</h3>
+                </div>
+                <div class="panel-body">
+                    <p>
+                        <b>Google search amount of results for numbers between 0 and 10,000.</b><br />
+                        Amount of total results in Google,
+                        for each natural number from 0 to 10,000.
+                        Data has been collected on the 16th of June, 2015. (<a href="./data/q_total.csv">download .csv</a>) <br />
+                        Click on a characteristic button or on the bubbles to filter by characteristic.<br />
+                        <b>prime <span class="bullet" style="color:#865f1a;">&bull;</span></b>  <br />
+                        <b>palindromic <span class="bullet" style="color:#ff00dc;">&bull;</span></b>  <br />
+                        <b>multiplier</b>
+                        <span class="bullet" style="color:#ff0000;">&bull;</span> x5
+                        <span class="bullet" style="color:#ff6a00;">&bull;</span> x10
+                        <span class="bullet" style="color:#ffd800;">&bull;</span> x20
+                        <span class="bullet" style="color:#b6ff00;">&bull;</span> x50 
+                        <span class="bullet" style="color:#4cff00;">&bull;</span> x100
+                        <span class="bullet" style="color:#00ffff;">&bull;</span> x200 
+                        <span class="bullet" style="color:#0094ff;">&bull;</span> x500
+                        <span class="bullet" style="color:#4800ff;">&bull;</span> x1000 
+                    </p>
+                    <p>
+                        Aurelien Jacquot - <a href="http://aurelienjacquot.fr">http://aurelienjacquot.fr</a><br />
+                        Read the <a href="blog article">blog article</a> for more details and analysis.
+                    </p>
+                </div>
+            </div>
+        </div><!-- /.col-sm-4 -->
+
     </div>
-    <div id="buttons">
+    <div class="row">
+        <div class="col-sm-12" id="chart_area">
+
+        </div>
     </div>
     <script src="./js/chart.js"></script>
     <script src="./js/ui.js"></script>
+    <a href="https://github.com/geck1942"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png"></a>
 </body>
 </html>

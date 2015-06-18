@@ -5,6 +5,10 @@
     margin: 1em;
 }
 
+h1 {
+    font-size: 2em;
+}
+
 .axis path,
 .axis line {
     fill: none;
@@ -24,6 +28,13 @@
     .dot:hover {
         stroke-width: 3px;
     }
+.bullet {
+    font-size:3em;
+    vertical-align:middle;
+    line-height: 0.3em;
+    stroke: #000;
+    stroke-width: 2px;
+}
 
 .line {
     fill: #000;
